@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrukPages • Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .heading { font-family: 'Playfair Display', sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-50">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🐉</span>
+                <span class="heading text-3xl font-bold">DrukPages</span>
+            </div>
+            
+            <div class="flex items-center gap-8 font-medium">
+                <a href="index.html" class="text-amber-600 font-semibold">Home</a>
+                <a href="shop.html" class="hover:text-amber-600">Shop</a>
+                <a href="resell.html" class="hover:text-amber-600">Resell</a>
+                <a href="publish.html" class="hover:text-amber-600">Publish</a>
+                <a href="community.html" class="hover:text-amber-600">Community</a>
+                <a href="about.html" class="hover:text-amber-600">About Bhutan</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-xl"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="text-xl"><i class="fa-solid fa-shopping-cart"></i></button>
+                <button class="bg-stone-900 text-white px-6 py-2.5 rounded-2xl">Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Content -->
+    <section class="hero-bg h-screen flex items-center text-white" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://picsum.photos/id/1015/2000/1200') center/cover;">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h1 class="heading text-7xl md:text-8xl font-bold leading-none mb-6">
+                Book<br>Selling
+            </h1>
+            <p class="text-xl max-w-md mx-auto">Buy • Sell • Publish Bhutanese Stories</p>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrukPages • Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        .heading { font-family: 'Playfair Display', sans-serif; }
+        
+        .book-card {
+            transition: all 0.4s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+    </style>
+</head>
+<body class="bg-stone-50">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🐉</span>
+                <span class="heading text-3xl font-bold text-stone-900">DrukPages</span>
+            </div>
+            
+            <div class="flex items-center gap-8 text-lg font-medium">
+                <a href="index.html" class="hover:text-amber-600">Home</a>
+                <a href="shop.html" class="text-amber-600 font-semibold">Shop</a>
+                <a href="resell.html" class="hover:text-amber-600">Resell</a>
+                <a href="publish.html" class="hover:text-amber-600">Publish</a>
+                <a href="community.html" class="hover:text-amber-600">Community</a>
+                <a href="about.html" class="hover:text-amber-600">About</a>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button onclick="toggleSearchModal()" class="text-2xl hover:text-amber-600 transition-colors">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                
+                <button onclick="toggleCartModal()" class="text-2xl hover:text-amber-600 transition-colors relative">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </button>
+                
+                <button class="bg-stone-900 text-white px-7 py-3 rounded-2xl hover:bg-black transition">Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="max-w-7xl mx-auto px-6 py-16">
+        <h1 class="heading text-6xl font-bold text-center mb-4">Book Shop</h1>
+        <p class="text-center text-stone-600 text-xl">Discover authentic Bhutanese and Himalayan literature</p>
+    </div>
+
+    <!-- BOOKS GRID -->
+    <div class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="books-grid"></div>
+    </div>
+
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="hidden fixed inset-0 bg-black/70 flex items-start justify-center pt-32 z-[2000]">
+        <div class="bg-white w-full max-w-2xl mx-4 rounded-3xl shadow-2xl">
+            <div class="p-6">
+                <input type="text" id="search-input" 
+                       class="w-full text-2xl outline-none placeholder:text-stone-400"
+                       placeholder="Search books or authors...">
+            </div>
+            <div class="px-6 pb-6 text-sm text-stone-500">
+                Press ESC to close
+            </div>
+        </div>
+    </div>
+
+    <!-- CART MODAL -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[2000]">
+        <div class="bg-white w-full max-w-md mx-4 rounded-3xl shadow-2xl">
+            <div class="flex justify-between p-6 border-b">
+                <h2 class="text-2xl font-semibold">Your Cart</h2>
+                <button onclick="toggleCartModal()" class="text-3xl text-stone-400 hover:text-black">×</button>
+            </div>
+            
+            <div id="cart-items" class="p-6 max-h-[400px] overflow-auto"></div>
+            
+            <div class="p-6 border-t">
+                <div class="flex justify-between text-xl font-semibold mb-6">
+                    <span>Total</span>
+                    <span id="cart-total">Nu. 0</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-5 rounded-3xl font-semibold text-lg">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const books = [
+            { title: "The Circle of Karma", author: "Kunzang Choden", price: 850, img: "data:image/jpeg;base64,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" },
+            { title: "Folktales of Bhutan", author: "Kunzang Choden", price: 650, img: "https://druksell.bt/cdn/shop/products/IMG_5364_1200x1715.jpg?v=1591626091" },
+            { title: "Treasures of the Thunder Dragon", author: "Ashi Dorji Wangmo", price: 1250, img: "https://www.booknese.com/uploads/books/treasures-of-the-thunder-dragon-a-portrait-of-bhutan-62a36c32036f2.jpeg" },
+            { title: "Beyond the Sky and the Earth", author: "Jamie Zeppa", price: 920, img: "https://upload.wikimedia.org/wikipedia/en/f/fc/Beyond_the_Sky_and_Earth_front_cover.jpg" },
+            { title: "The Hero with a Thousand Eyes", author: "Karma Ura", price: 780, img: "https://i.ebayimg.com/images/g/G5QAAOxy43FRZHYd/s-l1200.jpg" },
+            { title: "Radio Shangri-La", author: "Lisa Napoli", price: 680, img: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1332189268i/7494591.jpg" },
+            { title: "The Divine Madman", author: "Keith Dowman", price: 590, img: "https://m.media-amazon.com/images/I/512JF0AECRL._AC_UF1000,1000_QL80_.jpg" },
+            { title: "A Portrait of Bhutan", author: "Queen Ashi Dorji Wangmo", price: 1450, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS5WDW97o3uPWThY-Cf03FkIpHcb1IbcetuA&s" }
+        ];
+
+        let cart = [];
+
+        function renderBooks() {
+            const container = document.getElementById('books-grid');
+            container.innerHTML = '';
+
+            books.forEach(book => {
+                const card = document.createElement('div');
+                card.className = "book-card bg-white rounded-3xl overflow-hidden cursor-pointer border border-stone-100";
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${book.img}" class="w-full h-80 object-cover" alt="${book.title}" 
+                             onerror="this.src='https://picsum.photos/id/201/400/520'">
+                        <div class="absolute top-4 right-4 bg-white px-4 py-1.5 rounded-2xl text-lg font-bold text-amber-600 shadow">
+                            Nu. ${book.price}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg">${book.title}</h3>
+                        <p class="text-stone-500">${book.author}</p>
+                        <button onclick="addToCart('${book.title}', ${book.price}); event.stopImmediatePropagation()" 
+                                class="mt-6 w-full bg-stone-900 hover:bg-amber-600 text-white py-4 rounded-2xl transition">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            updateCartCount();
+            alert(`✅ ${title} added to cart!`);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        function toggleSearchModal() {
+            document.getElementById('search-modal').classList.toggle('hidden');
+        }
+
+        function toggleCartModal() {
+            document.getElementById('cart-modal').classList.toggle('hidden');
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-center py-16 text-stone-400">Your cart is empty</p>`;
+                document.getElementById('cart-total').textContent = 'Nu. 0';
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const itemHTML = `
+                    <div class="flex justify-between items-center py-4 border-b">
+                        <p class="font-medium">${item.title}</p>
+                        <div class="flex items-center gap-4">
+                            <p class="font-semibold">Nu. ${item.price}</p>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 text-2xl">×</button>
+                        </div>
+                    </div>`;
+                container.innerHTML += itemHTML;
+            });
+
+            document.getElementById('cart-total').textContent = `Nu. ${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCart();
+        }
+
+        function checkout() {
+            if (cart.length > 0) {
+                alert("Thank you for shopping with DrukPages! 🐉\n\nYour order has been placed.");
+                cart = [];
+                updateCartCount();
+                toggleCartModal();
+            }
+        }
+
+        // Close modals with ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                document.getElementById('search-modal').classList.add('hidden');
+                document.getElementById('cart-modal').classList.add('hidden');
+            }
+        });
+
+        // Initialize
+        window.onload = renderBooks;
+    </script>
+</body>
+</html>                                                                          make th code like as soon as i pree the navigation bar shop there will be books of bhutan like this code but the thing is not showing when i click the nav so make it work

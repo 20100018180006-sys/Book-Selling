@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrukPages • Resell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .heading { font-family: 'Playfair Display', sans-serif; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🐉</span>
+                <span class="heading text-3xl font-bold text-stone-900">DrukPages</span>
+            </div>
+            
+            <div class="flex items-center gap-8 text-lg font-medium">
+                <a href="index.html" class="hover:text-amber-600">Home</a>
+                <a href="shop.html" class="hover:text-amber-600">Shop</a>
+                <a href="resell.html" class="text-amber-600 font-semibold">Resell</a>
+                <a href="publish.html" class="hover:text-amber-600">Publish</a>
+                <a href="community.html" class="hover:text-amber-600">Community</a>
+                <a href="about.html" class="hover:text-amber-600">About</a>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <button class="text-2xl hover:text-amber-600"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="text-2xl hover:text-amber-600"><i class="fa-solid fa-shopping-cart"></i></button>
+                <button class="bg-stone-900 text-white px-7 py-3 rounded-2xl hover:bg-black">Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-20 text-center">
+        <h1 class="heading text-6xl font-bold mb-6">Resell Your Books</h1>
+        <p class="text-xl text-stone-600 max-w-2xl mx-auto">
+            Sell your used books to fellow Bhutanese readers. <br>
+            Give your books a second life across the kingdom.
+        </p>
+
+        <div class="mt-16">
+            <button onclick="showResellForm()" 
+                    class="px-16 py-7 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-2xl font-semibold rounded-3xl hover:scale-105 transition shadow-lg">
+                + List Your Book for Resale
+            </button>
+        </div>
+
+        <div class="mt-20 text-stone-500 text-sm">
+            📍 Books listed here will be visible to buyers in Thimphu, Paro, Punakha and other Dzongkhags.
+        </div>
+    </div>
+
+    <!-- Resell Form Modal -->
+    <div id="resell-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-auto">
+            <div class="p-10">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-semibold">List Book for Resale</h2>
+                    <button onclick="hideResellForm()" class="text-4xl leading-none text-stone-400 hover:text-black">×</button>
+                </div>
+
+                <form onsubmit="submitResell(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Book Title</label>
+                            <input type="text" id="resell-title" required
+                                   class="w-full border border-stone-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Author</label>
+                            <input type="text" id="resell-author" required
+                                   class="w-full border border-stone-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium mb-2">Upload Book Photo</label>
+                        <input type="file" id="resell-photo" accept="image/*" 
+                               class="w-full border border-stone-300 rounded-2xl px-6 py-4">
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mt-8">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Price You Bought (Nu.)</label>
+                            <input type="number" id="original-price" placeholder="e.g. 1250" required
+                                   class="w-full border border-stone-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Resell Price (Nu.)</label>
+                            <input type="number" id="resell-price" placeholder="e.g. 650" required
+                                   class="w-full border border-stone-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium mb-2">Condition of Book</label>
+                        <select id="condition" class="w-full border border-stone-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500">
+                            <option value="Like New">Like New</option>
+                            <option value="Very Good">Very Good</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-10 flex gap-4">
+                        <button type="button" onclick="hideResellForm()" 
+                                class="flex-1 py-6 border border-stone-300 rounded-3xl font-medium text-lg">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="flex-1 py-6 bg-stone-900 text-white rounded-3xl font-semibold text-lg">
+                            List for Resale
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showResellForm() {
+            document.getElementById('resell-modal').classList.remove('hidden');
+            document.getElementById('resell-modal').classList.add('flex');
+        }
+
+        function hideResellForm() {
+            const modal = document.getElementById('resell-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitResell(e) {
+            e.preventDefault();
+            const title = document.getElementById('resell-title').value;
+            const original = document.getElementById('original-price').value;
+            const resell = document.getElementById('resell-price').value;
+
+            alert(`✅ Success!\n\n"${title}" has been listed for resale.\n\nOriginal Price: Nu. ${original}\nResell Price: Nu. ${resell}`);
+            hideResellForm();
+        }
+    </script>
+</body>
+</html>

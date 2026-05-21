@@ -1,0 +1,166 @@
+/* ====================== NSD.CSS ====================== */
+/* Custom CSS for DrukPages - Bhutan Book Website */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ============== Root Variables ============== */
+:root {
+    --primary: #F5B800;      /* Dragon Gold */
+    --primary-dark: #D4A017;
+    --text: #1F2937;
+    --light: #F8FAFC;
+    --gray: #64748B;
+}
+
+/* ============== Basic Styles ============== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: #F8FAFC;
+}
+
+/* Headings */
+.heading {
+    font-family: 'Playfair Display', sans-serif;
+}
+
+/* ============== Navbar ============== */
+.navbar {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.logo-text {
+    font-family: 'Playfair Display', sans-serif;
+    color: #1F2937;
+}
+
+.nav-links a {
+    margin: 0 1.2rem;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.nav-actions button {
+    margin-left: 12px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #4B5563;
+}
+
+.account-btn {
+    background: #1F2937;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.account-btn:hover {
+    background: #374151;
+    transform: translateY(-2px);
+}
+
+/* ============== Headings & Buttons ============== */
+.main-heading {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #1F2937;
+}
+
+/* Cards */
+.testimonial-card,
+.discussion-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+}
+
+.testimonial-card:hover,
+.discussion-card:hover {
+    transform: translateY(-8px);
+}
+
+.join-banner {
+    background: linear-gradient(135deg, #F59E0B, #EA580C);
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 24px;
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.join-btn {
+    background: white;
+    color: #1F2937;
+    padding: 16px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.join-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* You can add mobile menu later */
+    }
+    
+    .main-heading {
+        font-size: 2.8rem;
+    }
+}
